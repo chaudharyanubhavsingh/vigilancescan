@@ -41,7 +41,7 @@ export default function Contact() {
               <div>Jane Smith</div>
               <div>555.123.5555</div>
               <Link to="#" className="contact-link">
-                norepl@webflow.com
+                norepl
               </Link>
             </div>
             <div className="w-col w-col-6">
@@ -49,7 +49,7 @@ export default function Contact() {
               <div>John Smith</div>
               <div>555.123.5555</div>
               <Link to="#" className="contact-link">
-                norepl@webflow.com
+                norepl
               </Link>
             </div>
           </div>
