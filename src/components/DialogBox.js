@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { CircularProgress } from '@mui/material';
 import ResultChart from './ResultChart';
 
-export default function DialogBox({ url, onClose }) {
+export default function DialogBox({ url,scanResult, onClose }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
  console.log(url);
@@ -28,7 +28,6 @@ export default function DialogBox({ url, onClose }) {
     };
     fetchData();
   }, [url]);
-
   return (
     <div
       className="dialog-box"
@@ -39,7 +38,7 @@ export default function DialogBox({ url, onClose }) {
         maxHeight: '700px', 
         margin: 'auto', 
         padding: '20px',
-        backgroundColor: '#rgb(188 124 124)',
+        backgroundColor: '#727070',
         borderRadius: '10px',
         position: 'fixed',
         top: '50%',
@@ -120,7 +119,7 @@ export default function DialogBox({ url, onClose }) {
         </div>
       ) : (
         <div className="result-container" style={{ position: 'relative', height: '100%',overflow:"auto" }}>
-          <ResultChart data={data} />
+          <ResultChart data={scanResult} />
         </div>
       )}
     </div>

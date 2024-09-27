@@ -22,7 +22,7 @@ export default function Home() {
       setLoading(true);
      
       setTimeout(() => {
-        setScanResult({
+        const mockScanResult = {
           vulnerabilities: {
             injection: 80, // Example data
             brokenAuth: 50,
@@ -42,7 +42,31 @@ export default function Home() {
             "Disable XML external entity processing.",
             "Enforce strong access control policies.",
           ],
-        });
+          // Add any additional data you need to pass to ResultChart
+          scanDate: "2023-06-15",
+          targetURL: url,
+          totalVulnerabilities: 28,
+          criticalVulnerabilities: 3,
+          highVulnerabilities: 5,
+          mediumVulnerabilities: 8,
+          lowVulnerabilities: 12,
+          securityPosture: "concerning due to the presence of critical vulnerabilities in core system components",
+          prioritizedActionPlan: [
+            "Address critical SQL Injection vulnerability in login form",
+            "Fix Cross-Site Scripting (XSS) issues in user comment system",
+            "Implement anti-CSRF tokens for all state-changing operations",
+            "Enhance authentication mechanisms to prevent unauthorized access",
+            "Encrypt all sensitive data both at rest and in transit"
+          ],
+          bestPractices: [
+            "Regularly update and patch all software components",
+            "Implement a Web Application Firewall (WAF)",
+            "Conduct regular security audits and penetration testing",
+            "Provide security awareness training for the development team",
+            "Implement a secure development lifecycle (SDLC) process"
+          ]
+        };
+        setScanResult(mockScanResult);
         setLoading(false);
         setShowDialog(true);
       }, 2000);
@@ -146,7 +170,7 @@ export default function Home() {
       </div>
 
       {showDialog && scanResult && (
-         <DialogBox url={url}  onClose={() => setShowDialog(false)}>
+         <DialogBox url={url}  scanResult={scanResult} onClose={() => setShowDialog(false)}>
           <div style={{ padding: '20px' }}>
             <h2>Scan Report</h2>
             <Bar data={data} options={options} />
