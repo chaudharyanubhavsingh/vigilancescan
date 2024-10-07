@@ -1,0 +1,49 @@
+/* Global Styles */
+body {
+    background-color: white; /* Set the background color to white */
+    color: #333; /* Use a standard dark color for text */
+    font-family: Arial, sans-serif; /* Set a formal font */
+}
+
+/* Card Styles */
+.card {
+    border: 1px solid #e0e0e0; /* Add a light border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Title Styles */
+h1, h2, h3, h4 {
+    color: #333; /* Standard text color */
+    margin-bottom: 8px; /* Margin for spacing */
+}
+
+/* Table Styles */
+.table {
+    width: 100%; /* Full width for tables */
+    border-collapse: collapse; /* Collapse borders */
+    margin-bottom: 20px; /* Margin below tables */
+}
+
+.table th, .table td {
+    border: 1px solid #e0e0e0; /* Light border for table cells */
+    padding: 12px; /* Padding for table cells */
+    text-align: left; /* Align text to the left */
+}
+
+.table th {
+    background-color: #f9f9f9; /* Light background for table headers */
+    font-weight: bold; /* Bold text for headers */
+}
+
+/* Accordion Styles */
+.accordion {
+    border: 1px solid #e0e0e0; /* Light border for accordions */
+    border-radius: 8px; /* Rounded corners */
+}
+
+/* Responsive Container */
+.responsive-container {
+    max-width: 800px; /* Max width for charts */
+    margin: auto; /* Center align */
+}

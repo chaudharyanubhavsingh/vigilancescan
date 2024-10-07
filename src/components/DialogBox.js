@@ -5,7 +5,7 @@ import ResultChart from './ResultChart';
 export default function DialogBox({ url,scanResult, onClose }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
- console.log(url);
+
   useEffect(() => {
   
     const fetchData = async () => {
@@ -38,7 +38,7 @@ export default function DialogBox({ url,scanResult, onClose }) {
         maxHeight: '700px', 
         margin: 'auto', 
         padding: '20px',
-        backgroundColor: '#727070',
+        backgroundColor: '#ffffff',
         borderRadius: '10px',
         position: 'fixed',
         top: '50%',

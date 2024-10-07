@@ -17,69 +17,42 @@ export default function Home() {
     setUrl(e.target.value);
   };
 
-  const handleScan = () => {
+  const handleScan = async () => {
     if (url) {
       setLoading(true);
-     
-      setTimeout(() => {
-        const mockScanResult = {
-          vulnerabilities: {
-            injection: 80, // Example data
-            brokenAuth: 50,
-            sensitiveDataExposure: 30,
-            xmlExternalEntities: 10,
-            brokenAccessControl: 70,
-            securityMisconfiguration: 40,
-            crossSiteScripting: 60,
-            insecureDeserialization: 20,
-            usingComponentsWithKnownVulnerabilities: 90,
-            insufficientLoggingAndMonitoring: 35,
+
+      try {
+        const response = await fetch(`http://localhost:8080/api/v1/scanner/vulnerabilities?url=${url}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
           },
-          recommendations: [
-            "Sanitize user inputs to prevent SQL Injection.",
-            "Implement proper authentication mechanisms.",
-            "Ensure sensitive data is encrypted.",
-            "Disable XML external entity processing.",
-            "Enforce strong access control policies.",
-          ],
-          // Add any additional data you need to pass to ResultChart
-          scanDate: "2023-06-15",
-          targetURL: url,
-          totalVulnerabilities: 28,
-          criticalVulnerabilities: 3,
-          highVulnerabilities: 5,
-          mediumVulnerabilities: 8,
-          lowVulnerabilities: 12,
-          securityPosture: "concerning due to the presence of critical vulnerabilities in core system components",
-          prioritizedActionPlan: [
-            "Address critical SQL Injection vulnerability in login form",
-            "Fix Cross-Site Scripting (XSS) issues in user comment system",
-            "Implement anti-CSRF tokens for all state-changing operations",
-            "Enhance authentication mechanisms to prevent unauthorized access",
-            "Encrypt all sensitive data both at rest and in transit"
-          ],
-          bestPractices: [
-            "Regularly update and patch all software components",
-            "Implement a Web Application Firewall (WAF)",
-            "Conduct regular security audits and penetration testing",
-            "Provide security awareness training for the development team",
-            "Implement a secure development lifecycle (SDLC) process"
-          ]
-        };
-        setScanResult(mockScanResult);
-        setLoading(false);
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to scan the website');
+        }
         setShowDialog(true);
-      }, 2000);
+        const result = await response.json();
+
+        setScanResult(result);
+        
+      } catch (error) {
+        console.error('Error scanning the URL:', error);
+        alert('Failed to scan the URL');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   const getBarColor = (percentage) => {
-    if (percentage > 70) return '#ff4c4c'; 
-    if (percentage > 50) return '#ffc107'; 
-    return '#4caf50'; 
+    if (percentage > 70) return '#ff4c4c'; // Critical vulnerabilities
+    if (percentage > 50) return '#ffc107'; // High vulnerabilities
+    return '#4caf50'; // Low/medium vulnerabilities
   };
 
-  const data = scanResult ? {
+  const data = scanResult && scanResult.vulnerabilities ? {
     labels: [
       'Injection',
       'Broken Auth',
@@ -160,31 +133,36 @@ export default function Home() {
                 styles={buildStyles({
                   pathColor: '#3498db',
                   textColor: '#3498db',
-                  trailColor: '#f0f0f0',
+                  trailColor: '#eee',
                 })}
               />
             </div>
           </div>
         )}
 
-      </div>
+        {showDialog && scanResult && (
+          <DialogBox url={url}  scanResult={scanResult} title={`Scan Result for ${scanResult.targetURL}`} onClose={() => setShowDialog(false)}>
+            <div>
+              <h3>Vulnerabilities Severity</h3>
+              <Bar data={data} options={options} />
 
-      {showDialog && scanResult && (
-         <DialogBox url={url}  scanResult={scanResult} onClose={() => setShowDialog(false)}>
-          <div style={{ padding: '20px' }}>
-            <h2>Scan Report</h2>
-            <Bar data={data} options={options} />
-            <div style={{ marginTop: '20px' }}>
-              <h3>Recommendations & Countermeasures</h3>
+              <h3>Recommendations</h3>
               <ul>
                 {scanResult.recommendations.map((rec, index) => (
                   <li key={index}>{rec}</li>
                 ))}
               </ul>
+
+              <h3>Summary</h3>
+              <p>Critical: {scanResult.criticalVulnerabilities}</p>
+              <p>High: {scanResult.highVulnerabilities}</p>
+              <p>Medium: {scanResult.mediumVulnerabilities}</p>
+              <p>Low: {scanResult.lowVulnerabilities}</p>
+              <p>Scan Date: {scanResult.scanDate}</p>
             </div>
-          </div>
-        </DialogBox>
-      )}
+          </DialogBox>
+        )}
+      </div>
     </div>
   );
 }
