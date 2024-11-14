@@ -8,6 +8,8 @@ import java.util.Map;
 @RequestMapping("/api/v1/scanner")
 public class ScannerController {
 
+    private static final int TOTAL_ATTEMPTS = 10;
+
     @GetMapping("/vulnerabilities")
     public Map<String, Object> scanUrl(@RequestParam String url) {
         Map<String, Object> result = new HashMap<>();
@@ -20,28 +22,22 @@ public class ScannerController {
 
         // Vulnerabilities data
         Map<String, Integer> vulnerabilities = new HashMap<>();
-        vulnerabilities.put("injection", calculateSeverity(VulnerabilityScanner.checkSQLInjection(url)));
-        vulnerabilities.put("brokenAuth", calculateSeverity(VulnerabilityScanner.checkBrokenAuthentication(url)));
-        vulnerabilities.put("sensitiveDataExposure", calculateSeverity(VulnerabilityScanner.checkCryptographicFailures(url)));
-        vulnerabilities.put("xmlExternalEntities", calculateSeverity(VulnerabilityScanner.checkXXE(url)));
-        vulnerabilities.put("brokenAccessControl", calculateSeverity(VulnerabilityScanner.checkBrokenAccessControl(url)));
-        vulnerabilities.put("securityMisconfiguration", calculateSeverity(VulnerabilityScanner.checkSecurityMisconfigurations(url)));
-        vulnerabilities.put("crossSiteScripting", calculateSeverity(VulnerabilityScanner.checkXSS(url)));
-        vulnerabilities.put("insecureDeserialization", 35); // Static value
-        vulnerabilities.put("usingComponentsWithKnownVulnerabilities", calculateSeverity(VulnerabilityScanner.checkOutdatedComponents(url)));
-        vulnerabilities.put("insufficientLoggingAndMonitoring", 47); // Static value
-        result.put("attackSimulation", VulnerabilityScanner.simulateAttack(url));
-        result.put("Websitescrape", VulnerabilityScanner.scrapeWebsiteData(url));
+        vulnerabilities.put("injection", calculateSeverity(VulnerabilityScanner.checkSQLInjection(url, TOTAL_ATTEMPTS)));
+        vulnerabilities.put("brokenAuth", calculateSeverity(VulnerabilityScanner.checkBrokenAuthentication(url, TOTAL_ATTEMPTS)));
+        vulnerabilities.put("sensitiveDataExposure", calculateSeverity(VulnerabilityScanner.checkCryptographicFailures(url, TOTAL_ATTEMPTS)));
+        vulnerabilities.put("xmlExternalEntities", calculateSeverity(VulnerabilityScanner.checkXXE(url, TOTAL_ATTEMPTS)));
+        vulnerabilities.put("brokenAccessControl", calculateSeverity(VulnerabilityScanner.checkBrokenAccessControl(url, TOTAL_ATTEMPTS)));
+        vulnerabilities.put("securityMisconfiguration", calculateSeverity(VulnerabilityScanner.checkSecurityMisconfigurations(url, TOTAL_ATTEMPTS)));
+        vulnerabilities.put("crossSiteScripting", calculateSeverity(VulnerabilityScanner.checkXSS(url, TOTAL_ATTEMPTS)));
+        vulnerabilities.put("insecureDeserialization", calculateSeverity(VulnerabilityScanner.checkInsecureDeserialization(url, TOTAL_ATTEMPTS)));
+        vulnerabilities.put("usingComponentsWithKnownVulnerabilities", calculateSeverity(VulnerabilityScanner.checkOutdatedComponents(url, TOTAL_ATTEMPTS)));
+        vulnerabilities.put("insufficientLoggingAndMonitoring", calculateSeverity(VulnerabilityScanner.checkInsufficientLogging(url, TOTAL_ATTEMPTS)));
+
+        result.put("attackSimulation", VulnerabilityScanner.simulateAttack(url, TOTAL_ATTEMPTS));
+        result.put("websiteScrape", VulnerabilityScanner.scrapeWebsiteData(url));
 
         // Recommendations based on vulnerabilities
-        String[] recommendations = {
-            "Sanitize user inputs to prevent SQL Injection.",
-            "Implement proper authentication mechanisms.",
-            "Ensure sensitive data is encrypted.",
-            "Disable XML external entity processing.",
-            "Enforce strong access control policies."
-        };
-        
+        Map<String, String> recommendations = generateRecommendations(vulnerabilities);
 
         // Adding all the required results dynamically
         result.put("vulnerabilities", vulnerabilities);
@@ -63,10 +59,45 @@ public class ScannerController {
         return result;
     }
 
-    private int calculateSeverity(String vulnerabilityCheckResult) {
-        if (vulnerabilityCheckResult.contains("Potential")) {
-            return (int) (Math.random() * (90 - 50)) + 50; // Random value between 50-90%
+    private int calculateSeverity(int successfulAttempts) {
+        // Severity is a percentage based on successful attempts out of TOTAL_ATTEMPTS
+        return (int) ((successfulAttempts / (double) TOTAL_ATTEMPTS) * 100);
+    }
+
+    private Map<String, String> generateRecommendations(Map<String, Integer> vulnerabilities) {
+        Map<String, String> recommendations = new HashMap<>();
+
+        if (vulnerabilities.getOrDefault("injection", 0) > 0) {
+            recommendations.put("injection", "Sanitize and validate all user inputs to prevent SQL Injection.");
         }
-        return (int) (Math.random() * 50); // Random value between 0-50%
+        if (vulnerabilities.getOrDefault("brokenAuth", 0) > 0) {
+            recommendations.put("brokenAuth", "Implement strong authentication mechanisms and session management.");
+        }
+        if (vulnerabilities.getOrDefault("sensitiveDataExposure", 0) > 0) {
+            recommendations.put("sensitiveDataExposure", "Ensure all sensitive data is encrypted both at rest and in transit.");
+        }
+        if (vulnerabilities.getOrDefault("xmlExternalEntities", 0) > 0) {
+            recommendations.put("xmlExternalEntities", "Disable XML external entity processing to prevent XXE attacks.");
+        }
+        if (vulnerabilities.getOrDefault("brokenAccessControl", 0) > 0) {
+            recommendations.put("brokenAccessControl", "Enforce strict access control policies and least privilege principle.");
+        }
+        if (vulnerabilities.getOrDefault("securityMisconfiguration", 0) > 0) {
+            recommendations.put("securityMisconfiguration", "Regularly audit and update server configurations to prevent security misconfigurations.");
+        }
+        if (vulnerabilities.getOrDefault("crossSiteScripting", 0) > 0) {
+            recommendations.put("crossSiteScripting", "Implement Content Security Policy (CSP) and sanitize user inputs to prevent XSS.");
+        }
+        if (vulnerabilities.getOrDefault("insecureDeserialization", 0) > 0) {
+            recommendations.put("insecureDeserialization", "Avoid deserializing untrusted data and implement integrity checks.");
+        }
+        if (vulnerabilities.getOrDefault("usingComponentsWithKnownVulnerabilities", 0) > 0) {
+            recommendations.put("usingComponentsWithKnownVulnerabilities", "Regularly update and patch all components to the latest versions.");
+        }
+        if (vulnerabilities.getOrDefault("insufficientLoggingAndMonitoring", 0) > 0) {
+            recommendations.put("insufficientLoggingAndMonitoring", "Implement comprehensive logging and monitoring to detect and respond to incidents promptly.");
+        }
+
+        return recommendations;
     }
 }

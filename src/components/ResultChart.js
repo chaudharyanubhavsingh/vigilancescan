@@ -16,7 +16,7 @@ function ResultChart({ data }) {
       "Implement anti-CSRF tokens for all state-changing operations",
       "Enhance authentication mechanisms to prevent unauthorized access",
       "Encrypt all sensitive data both at rest and in transit"
-    ]
+    ];
     
    const bestPractices = [
       "Regularly update and patch all software components",
@@ -24,10 +24,11 @@ function ResultChart({ data }) {
       "Conduct regular security audits and penetration testing",
       "Provide security awareness training for the development team",
       "Implement a secure development lifecycle (SDLC) process"
-    ]
+    ];
+    
     const {
         vulnerabilities = {},
-        recommendations = [],
+        recommendations = {},
         scanDate,
         targetURL,
         criticalVulnerabilities,
@@ -35,10 +36,11 @@ function ResultChart({ data }) {
         mediumVulnerabilities,
         lowVulnerabilities,
         securityPosture,
-        Websitescrape
+        websiteScrape
     } = parsedData;
-    const totalVulnerabilities= criticalVulnerabilities+highVulnerabilities +mediumVulnerabilities + lowVulnerabilities;
-console.log(parsedData);
+
+    const totalVulnerabilities = criticalVulnerabilities + highVulnerabilities + mediumVulnerabilities + lowVulnerabilities;
+
     // Prepare data for charts
     const vulnerabilityData = [
         { name: 'Critical', value: criticalVulnerabilities },
@@ -48,17 +50,18 @@ console.log(parsedData);
     ];
 
     const vulnerabilityTypeData = [
-        { name: 'Broken Access Control', count: vulnerabilities.brokenAccessControl || 0 },
-        { name: 'Security Misconfiguration', count: vulnerabilities.securityMisconfiguration || 0 },
-        { name: 'XML External Entities', count: vulnerabilities.xmlExternalEntities || 0 },
-        { name: 'Using Components with Known Vulnerabilities', count: vulnerabilities.usingComponentsWithKnownVulnerabilities || 0 },
-        { name: 'Broken Authentication', count: vulnerabilities.brokenAuth || 0 },
-        { name: 'Injection', count: vulnerabilities.injection || 0 },
-        { name: 'Cross Site Scripting', count: vulnerabilities.crossSiteScripting || 0 },
-        { name: 'Sensitive Data Exposure', count: vulnerabilities.sensitiveDataExposure || 0 },
-        { name: 'Insecure Deserialization', count: vulnerabilities.insecureDeserialization || 0 },
-        { name: 'Insufficient Logging and Monitoring', count: vulnerabilities.insufficientLoggingAndMonitoring || 0 }
+        { name: 'Broken Access Control', count: vulnerabilities.brokenAccessControl || 0, recommendation: recommendations.brokenAccessControl },
+        { name: 'Security Misconfiguration', count: vulnerabilities.securityMisconfiguration || 0, recommendation: recommendations.securityMisconfiguration },
+        { name: 'XML External Entities', count: vulnerabilities.xmlExternalEntities || 0, recommendation: recommendations.xmlExternalEntities },
+        { name: 'Using Components with Known Vulnerabilities', count: vulnerabilities.usingComponentsWithKnownVulnerabilities || 0, recommendation: recommendations.usingComponentsWithKnownVulnerabilities },
+        { name: 'Broken Authentication', count: vulnerabilities.brokenAuth || 0, recommendation: recommendations.brokenAuth },
+        { name: 'Injection', count: vulnerabilities.injection || 0, recommendation: recommendations.injection },
+        { name: 'Cross Site Scripting', count: vulnerabilities.crossSiteScripting || 0, recommendation: recommendations.crossSiteScripting },
+        { name: 'Sensitive Data Exposure', count: vulnerabilities.sensitiveDataExposure || 0, recommendation: recommendations.sensitiveDataExposure },
+        { name: 'Insecure Deserialization', count: vulnerabilities.insecureDeserialization || 0, recommendation: recommendations.insecureDeserialization },
+        { name: 'Insufficient Logging and Monitoring', count: vulnerabilities.insufficientLoggingAndMonitoring || 0, recommendation: recommendations.insufficientLoggingAndMonitoring }
     ];
+
 
     return (
         <div className="container mx-auto p-4 space-y-8">
@@ -78,10 +81,6 @@ console.log(parsedData);
                             <TableRow>
                                 <TableCell className="font-medium">Target URL</TableCell>
                                 <TableCell>{targetURL}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell className="font-medium">Total Vulnerabilities Detected</TableCell>
-                                <TableCell>{totalVulnerabilities}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className="font-medium">Critical Vulnerabilities</TableCell>
@@ -114,24 +113,21 @@ console.log(parsedData);
                             <AccordionItem value={`item-${index + 1}`} key={index}>
                                 <AccordionTrigger>
                                     <div className="flex items-center">
-                                    {index <3 && <AlertOctagon style={{color:" red"}} className="text-red-500 mr-2" />}
-                    {index === 3&& <AlertTriangle style={{color:" orange"}} className="text-orange-500 mr-2" />}
-                    {index === 4&& <AlertTriangle style={{color:" orange"}} className="text-orange-500 mr-2" />}
-                    {index === 5&& <AlertTriangle style={{color:" orange"}} className="text-orange-500 mr-2" />}
-                    {index === 6&& <AlertTriangle style={{color:" orange"}} className="text-orange-500 mr-2" />}
-                    {index > 6 && <BadgeAlert  style={{color:" yellow"}} className="text-yellow-500 mr-2" />}
+                                    {index <3 && <AlertOctagon style={{color:" green"}} className="text-red-500 mr-2" />}
+                    {index === 3&& <AlertTriangle style={{color:" green"}} className="text-orange-500 mr-2" />}
+                    {index === 4&& <AlertTriangle style={{color:" green"}} className="text-orange-500 mr-2" />}
+                    {index === 5&& <AlertTriangle style={{color:" green"}} className="text-orange-500 mr-2" />}
+                    {index === 6&& <AlertTriangle style={{color:" green"}} className="text-orange-500 mr-2" />}
+                    {index > 6 && <BadgeAlert  style={{color:" green"}} className="text-yellow-500 mr-2" />}
                                         Vulnerability #{index + 1}: {vuln.name}
                                     </div>
                                 </AccordionTrigger>
-                                <AccordionContent  style={{ textAlign: "justify"}}>
+                                <AccordionContent>
                                     <p><strong>Description:</strong> Brief description of {vuln.name}.</p>
-                                    <p><strong>Severity:</strong> {index < 2 ? 'Critical' : 'High'}</p>
+                                    <p><strong>Severity:</strong> {vuln.count > 0 ? (index < 2 ? 'Critical' : 'High') : 'Not present'}</p>
                                     <p><strong>Location:</strong> Various endpoints in the application</p>
-                                    <p><strong>Affected Components:</strong> {securityPosture}</p>
-                                    <p><strong>Proof of Concept:</strong> Detailed in the full report</p>
-                                    <h4 className="font-bold mt-4">Recommendations:</h4>
-                                    <p><strong>Suggested Fix:</strong> {recommendations.join(', ')}</p>
-                                    <p><strong>Steps to Remediate:</strong> {recommendations.join(', ')}</p>
+                                    {/* <p><strong>Affected Components:</strong> {securityPosture}</p> */}
+                                    <p><strong>Recommendation:</strong> {vuln.recommendation || 'No specific recommendation provided.'}</p>
                                     <p><strong>Resources:</strong> OWASP Cheat Sheet for {vuln.name}</p>
                                 </AccordionContent>
                             </AccordionItem>
@@ -217,7 +213,7 @@ console.log(parsedData);
                 <CardContent  style={{ textAlign: "justify"}}>
                     <h3  className="font-semibold mb-2" >Scrapped data</h3>
                     <p className="mb-4">
-                        {Websitescrape}
+                        {websiteScrape}
                     </p>
                     {/* <h3 className="font-semibold mb-2">Prioritized Action Plan</h3>
                     <ol className="list-decimal list-inside mb-4">

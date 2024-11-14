@@ -146,13 +146,7 @@ export default function Home() {
               <h3>Vulnerabilities Severity</h3>
               <Bar data={data} options={options} />
 
-              <h3>Recommendations</h3>
-              <ul>
-                {scanResult.recommendations.map((rec, index) => (
-                  <li key={index}>{rec}</li>
-                ))}
-              </ul>
-
+            
               <h3>Summary</h3>
               <p>Critical: {scanResult.criticalVulnerabilities}</p>
               <p>High: {scanResult.highVulnerabilities}</p>
