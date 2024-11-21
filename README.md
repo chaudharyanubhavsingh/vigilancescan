@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# ---------------------Vigilance Scan-------------------
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Frontend
 
-In the project directory, you can run:
+## Introduction
 
-### `npm start`
+Vigilance Scan is a web application that scans websites for vulnerabilities. This repository contains the frontend code for the application, built using React.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- User input form to enter URL to be scanned
+- Scan button to initiate the scan
+- Loading indicator during scan
+- Dialog box to display scan results, including:
+  - Bar chart showing severity of vulnerabilities
+  - Summary of results, including critical, high, medium, and low vulnerabilities
+  - Scan date
 
-### `npm test`
+## Technologies Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React
+- JavaScript
+- HTML/CSS
+- Material-UI for styling
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository: `git clone https://github.com/chaudharyanubhavsingh/vigilance-scan-frontend.git`
+2. Install dependencies: `npm install`
+3. Start the application: `npm start`
+4. Open your browser and navigate to `http://localhost:3000`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## API Documentation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The frontend communicates with the backend API to scan websites for vulnerabilities. The API endpoint is `http://localhost:8080/api/v1/scanner/vulnerabilities?url={url}`.
 
-### `npm run eject`
+## Contributing
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Contributions are welcome! Please submit a pull request with your changes.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## License
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This project is licensed under the MIT License.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+**Backend Repository**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Vigilance Scan Backend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Introduction
 
-### Code Splitting
+Vigilance Scan is a web application that scans websites for vulnerabilities. This repository contains the backend code for the application, built using Spring Boot.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Features
 
-### Analyzing the Bundle Size
+- API endpoint to scan websites for vulnerabilities
+- Supports GET requests with URL parameter
+- Returns scan results in JSON format
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Technologies Used
 
-### Making a Progressive Web App
+- Spring Boot
+- Java
+- Maven
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Getting Started
 
-### Advanced Configuration
+1. Change directory: `cd Backend`
+2. Install dependencies: `mvn clean install`
+3. Start the application: `mvn spring-boot:run`
+4. Open your browser and navigate to `http://localhost:8080/api/v1/scanner/vulnerabilities?url={url}`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## API Documentation
 
-### Deployment
+### GET /api/v1/scanner/vulnerabilities
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Parameters:
+  - `url` (string): URL to be scanned
+- Returns:
+  - `200 OK`: Scan results in JSON format
+  - `500 Internal Server Error`: Error scanning website
 
-### `npm run build` fails to minify
+## Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Contributions are welcome! Please submit a pull request with your changes.
+
+## License
+
+This project is licensed under the MIT License.
+

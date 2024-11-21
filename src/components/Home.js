@@ -7,6 +7,13 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { Bar } from 'react-chartjs-2';
 
+/**
+ * The Home component is the entry point of the application, it displays a background video
+ * and a form to enter a URL to scan. The component also displays a bar chart showing the
+ * severity of the vulnerabilities found in the target URL.
+ * @return {JSX.Element} The rendered Home component
+ */
+
 export default function Home() {
   const [showDialog, setShowDialog] = useState(false);
   const [url, setUrl] = useState('');
