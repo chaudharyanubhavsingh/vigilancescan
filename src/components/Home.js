@@ -101,6 +101,13 @@ export default function Home() {
             <nav role="navigation" className="nav-menu w-nav-menu">
               <Link to="/contact" className="nav-link w-nav-link">Contact</Link>
             </nav>
+            <nav role="navigation" className="nav-menu w-nav-menu">
+              <Link to="/malware" className="nav-link w-nav-link">Malware</Link>
+            </nav>
+            <nav role="navigation" className="nav-menu w-nav-menu">
+              <Link to="/" className="nav-link w-nav-link">Vulnscan</Link>
+            </nav>
+            
             <div className="menu-button w-clearfix w-nav-button">
               <div className="menu-text">MENU</div>
               <div className="menu-icon w-icon-nav-menu"></div>
@@ -110,7 +117,7 @@ export default function Home() {
         <div className="hero-container w-container" style={{ marginTop: '50px' }}>
           <h1 className="hero-heading">Unleash the Power of Web Scraping</h1>
           <div className="hero-subtitle">
-            Effortlessly extract data from any website with our cutting-edge scraper tool.
+            Effortlessly extract data from any website with our cutting-edge scraper tool
           </div>
         </div>
         <div className="w-layout-hflex flex-block">
@@ -139,7 +146,10 @@ export default function Home() {
             </div>
           </div>
         )}
-
+        <div className="hero-subtitle" style={{ marginTop: '80px' ,marginBottom: '30px' }}>
+            Scan for Malware
+          </div>
+          <Link to="/malware" className="contact-button" style={{ border: '2px solid rgb(209 52 52)' , borderRadius: '10px'  , backgroundColor: 'rgb(209 52 52)' ,color: 'rgb(167 200 255)' , padding: '10px 10px' ,textDecoration: 'none'}}>Malware</Link> 
         {showDialog && scanResult && (
           <DialogBox url={url}  scanResult={scanResult} title={`Scan Result for ${scanResult.targetURL}`} onClose={() => setShowDialog(false)}>
             <div>

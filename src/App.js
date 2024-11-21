@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Home from './components/Home';
 import Contact from './components/Contact';
+import Malware from './components/Malware';
 
 
 
@@ -20,6 +21,7 @@ function App() {
         <Routes> 
           <Route path='/' element={<Home />} />
           <Route path='/contact' element={<Contact />} /> 
+          <Route path='/malware' element={<Malware />} /> 
         </Routes>
       </div>
     </Router>

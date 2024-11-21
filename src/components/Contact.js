@@ -18,14 +18,14 @@ export default function Contact() {
             <h1 className="logo">Vigilance Scan</h1>
           </Link>
           <nav role="navigation" className="nav-menu w-nav-menu">
-            <Link
-              href="/contact"
-              aria-current="page"
-              className="nav-link w-nav-link w--current"
-            >
-              Contact
-            </Link>
-          </nav>
+              <Link to="/contact" className="nav-link w-nav-link">Contact</Link>
+            </nav>
+            <nav role="navigation" className="nav-menu w-nav-menu">
+              <Link to="/malware" className="nav-link w-nav-link">Malware</Link>
+            </nav>
+            <nav role="navigation" className="nav-menu w-nav-menu">
+              <Link to="/" className="nav-link w-nav-link">Vulnscan</Link>
+            </nav>
           <div className="menu-button w-clearfix w-nav-button">
             <div className="menu-text">MENU</div>
             <div className="menu-icon w-icon-nav-menu"></div>
@@ -34,29 +34,24 @@ export default function Contact() {
       </div>
       <div className="section">
         <div className="content-wrapper w-container">
-          <h1 className="page-title">Get in touch</h1>
+          <h1 className="page-title" style={{ color: "white" }} >Get in touch</h1>
           <div className="contact-row w-row">
             <div className="w-col w-col-6">
-              <h2 className="contact-h3">Founder</h2>
-              <div>Jane Smith</div>
-              <div>555.123.5555</div>
-              <Link to="#" className="contact-link">
-                norepl
-              </Link>
+              <h2 style={{ color: "white" }} className="contact-h3">Founder</h2>
+              <div style={{ color: "white" }}>Anubhav Chaudhary</div>
+              <div style={{ color: "white" }}>Anubhavchaudhary674@gmail.com</div>
+             
             </div>
             <div className="w-col w-col-6">
-              <h2 className="contact-h3">Order Now</h2>
-              <div>John Smith</div>
-              <div>555.123.5555</div>
-              <Link to="#" className="contact-link">
-                norepl
-              </Link>
+              <h2 style={{ color: "white" }} className="contact-h3">Social site</h2>
+              <div style={{ color: "white" }}>https://www.linkedin.com/in/anubhav-chaudhary-533a66248/</div>
+             
             </div>
           </div>
         </div>
         <div className="content w-container">
           <div className="contact-row">
-            <h2 className="contact-h3">Contact for More info </h2>
+            <h2 className="contact-h3" style={{ color: "white" }} >Contact for More info </h2>
             <div className="form w-form">
               <form
                 id="email-form"
